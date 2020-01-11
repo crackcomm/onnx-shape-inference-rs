@@ -1,0 +1,16 @@
+[package]
+name = "onnx-shape-inference"
+version = "0.0.1"
+authors = ["Łukasz Kurowski <crackcomm@gmail.com>"]
+edition = "2018"
+license = "MIT"
+description = "ONNX Shape inference bindings."
+homepage = "https://github.com/crackcomm/onnx-shape-inference-rs"
+repository = "https://github.com/crackcomm/onnx-shape-inference-rs.git"
+build = "build.rs"
+
+[dependencies]
+libc = "^0.2.0"
+
+[build-dependencies]
+cmake = "^0.1.42"
