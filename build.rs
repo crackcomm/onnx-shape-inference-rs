@@ -64,8 +64,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         onnx_out_dir.join("lib").display()
     );
     println!("cargo:rustc-link-lib=onnx_proto");
-    println!("cargo:rustc-link-lib=protobuf-lite");
-    println!("cargo:rustc-link-lib=dylib=stdc++");
+
+    if cfg!(windows) {
+        println!("cargo:rustc-link-lib=libprotobuf-lite");
+    } else {
+        println!("cargo:rustc-link-lib=protobuf-lite");
+        println!("cargo:rustc-link-lib=dylib=stdc++");
+    }
 
     Ok(())
 }
