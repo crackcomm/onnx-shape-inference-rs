@@ -31,6 +31,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "cargo:rustc-link-search={}",
         pb_out_dir.join("build").join("Release").display()
     );
+    println!(
+        "cargo:rustc-link-search={}",
+        pb_out_dir.join("lib").display()
+    );
 
     // Add protoc to `PATH` environment variable
     add_paths(&[
@@ -60,7 +64,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         onnx_out_dir.join("lib").display()
     );
     println!("cargo:rustc-link-lib=onnx_proto");
-    println!("cargo:rustc-link-lib=libprotobuf-lite");
+    println!("cargo:rustc-link-lib=protobuf-lite");
+    println!("cargo:rustc-link-lib=dylib=stdc++");
 
     Ok(())
 }
