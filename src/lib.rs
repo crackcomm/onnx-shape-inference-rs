@@ -5,7 +5,17 @@
 
 extern crate libc;
 
+#[cfg(feature = "proto")]
+extern crate onnx_pb;
+#[cfg(feature = "proto")]
+extern crate prost;
+
 use libc::size_t;
+
+#[cfg(feature = "proto")]
+mod proto;
+#[cfg(feature = "proto")]
+pub use self::proto::*;
 
 #[link(name = "onnx", kind = "static")]
 extern "C" {
@@ -15,7 +25,7 @@ extern "C" {
 const OUTPUT_SIZE_MULTIPLIER: usize = 10;
 
 /// Infers model shapes accepting and returning protocol buffers model.
-pub fn infer_shapes_proto(body: &[u8]) -> Vec<u8> {
+pub fn shape_inference_proto(body: &[u8]) -> Vec<u8> {
     let capacity = body.len() * OUTPUT_SIZE_MULTIPLIER;
     let mut output = Vec::with_capacity(capacity);
     unsafe {
@@ -30,11 +40,25 @@ pub fn infer_shapes_proto(body: &[u8]) -> Vec<u8> {
 mod tests {
     use super::*;
 
+    #[cfg(feature = "proto")]
     #[test]
-    fn read_proto() {
+    fn inference() {
+        fn open_model<P: AsRef<std::path::Path>>(path: P) -> onnx_pb::ModelProto {
+            use prost::Message;
+            let body = read_buf(path);
+            onnx_pb::ModelProto::decode(body.as_slice()).unwrap()
+        }
+        let buffer = open_model("tests/model.onnx");
+        let inferred = open_model("tests/model-inferred.onnx");
+        let output = shape_inference(&buffer).unwrap();
+        assert_eq!(output, inferred);
+    }
+
+    #[test]
+    fn inference_proto() {
         let buffer = read_buf("tests/model.onnx");
         let inferred = read_buf("tests/model-inferred.onnx");
-        let output = infer_shapes_proto(buffer.as_slice());
+        let output = shape_inference_proto(buffer.as_slice());
         assert_eq!(output, inferred);
     }
 

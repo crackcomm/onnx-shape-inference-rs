@@ -12,6 +12,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     if !pb_out_dir.join("build").join("CMakeCache.txt").exists() {
         cmake::Config::new("third_party/protobuf/cmake")
             .profile("Release")
+            .define("protobuf_WITH_ZLIB", "OFF")
             .define("protobuf_MSVC_STATIC_RUNTIME", "OFF")
             .define("protobuf_BUILD_TESTS", "OFF")
             .define("protobuf_BUILD_EXAMPLES", "OFF")

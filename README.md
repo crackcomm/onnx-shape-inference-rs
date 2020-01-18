@@ -9,7 +9,7 @@ ONNX Shape inference binding.
 
 ```Toml
 [dependencies]
-onnx-shape-inference = "^0.0.1"
+onnx-shape-inference = "^1.0.0"
 ```
 
 ## License
