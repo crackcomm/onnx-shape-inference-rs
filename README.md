@@ -2,6 +2,7 @@
 
 [![Documentation](https://docs.rs/onnx-shape-inference/badge.svg)](https://docs.rs/onnx-shape-inference/)
 [![Crate](https://img.shields.io/crates/v/onnx-shape-inference.svg)](https://crates.io/crates/onnx-shape-inference)
+[![Build Status](https://travis-ci.org/crackcomm/onnx-shape-inference-rs.svg?branch=master)](https://travis-ci.org/crackcomm/onnx-shape-inference-rs)
 
 ONNX Shape inference binding.
 
