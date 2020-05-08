@@ -52,12 +52,22 @@ mod tests {
         let inferred = open_model("tests/model-inferred.onnx");
         let output = shape_inference(&buffer).unwrap();
         assert_eq!(output, inferred);
+
+        let buffer = open_model("tests/mean-reverse.onnx");
+        let inferred = open_model("tests/mean-reverse-inferred.onnx");
+        let output = shape_inference(&buffer).unwrap();
+        assert_eq!(output, inferred);
     }
 
     #[test]
     fn inference_proto() {
         let buffer = read_buf("tests/model.onnx");
         let inferred = read_buf("tests/model-inferred.onnx");
+        let output = shape_inference_proto(buffer.as_slice());
+        assert_eq!(output, inferred);
+
+        let buffer = read_buf("tests/mean-reverse.onnx");
+        let inferred = read_buf("tests/mean-reverse-inferred.onnx");
         let output = shape_inference_proto(buffer.as_slice());
         assert_eq!(output, inferred);
     }
